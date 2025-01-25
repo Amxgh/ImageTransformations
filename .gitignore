@@ -1,0 +1,9 @@
+/.idea/.gitignore
+/.idea/assignment1.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/vcs.xml
+*.png
+*.jpg
+*.jpeg
