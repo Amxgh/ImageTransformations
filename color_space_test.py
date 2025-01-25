@@ -89,3 +89,48 @@ def hsv_to_rgb(image: np.ndarray) -> np.ndarray:
 
     return rgb_image
 
+
+def main(argc: int, argv: list):
+    if argc != 5:
+        raise ValueError("Invalid syntax\n"
+                         "python color_space_test.py <filename> "
+                         "<hue value modification> <saturation modification> <value modification>")
+
+    try:
+        filename: str = argv[1]
+        hue: float = float(argv[2])
+        saturation: float = float(argv[3])
+        value: float = float(argv[4])
+    except TypeError:
+        raise TypeError("Invalid data type entered. Following are the datatypes:\n"
+                        "Filename : String\n"
+                        "Hue : Float\n"
+                        "Saturation : Float\n"
+                        "Value : Float\n")
+
+    if (hue < 0 or hue > 360) or (saturation < 0 or saturation > 1) or (value < 0 or value > 1):
+        raise ValueError("Value exceeds bounds. Following are the valid ranges:"
+                         "Hue : [0, 360]"
+                         "Saturation : [0, 1]"
+                         "Value : [0, 1]")
+
+    image = cv2.imread(filename)
+    if image is None:
+        raise FileNotFoundError("Could not load 'my_photo.jpg'. Check your path.")
+
+    rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    hsv_img = rgb_to_hsv(rgb_img, hue, saturation, value)
+
+    rgb_round_trip = hsv_to_rgb(hsv_img)
+
+    rgb_round_trip_uint8 = (rgb_round_trip * 255).astype(np.uint8)
+    bgr_round_trip = cv2.cvtColor(rgb_round_trip_uint8, cv2.COLOR_RGB2BGR)
+
+    cv2.imwrite("Output.jpg", bgr_round_trip)
+
+
+if __name__ == "__main__":
+    import sys
+
+    main(len(sys.argv), sys.argv)
