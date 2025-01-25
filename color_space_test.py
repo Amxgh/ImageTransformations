@@ -85,5 +85,7 @@ def hsv_to_rgb(image: np.ndarray) -> np.ndarray:
 
     rgb_image: np.ndarray = np.stack([r_prime + m, g_prime + m, b_prime + m], axis=2)
 
+    rgb_image = np.clip(rgb_image, 0, 1)
+
     return rgb_image
 
