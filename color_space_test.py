@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
-def rgb_to_hsv(image: np.ndarray) -> np.ndarray:
+def rgb_to_hsv(image: np.ndarray, h_modifier: float, s_modifier: float, v_modifier: float) -> np.ndarray:
     image = image / 255 if image.max() > 1 else image
 
     v: np.ndarray = np.max(image, axis=2)
@@ -29,7 +29,10 @@ def rgb_to_hsv(image: np.ndarray) -> np.ndarray:
     h: np.ndarray = h_prime * 60
     h[h < 0] += 360
 
-    hsv: np.ndarray = np.stack([h, s, v], axis=2)
+    hsv: np.ndarray = np.stack([np.clip(h + h_modifier, 0, 360),
+                                np.clip(s + s_modifier, 0, 1),
+                                np.clip(v + v_modifier, 0 , 1)],
+                               axis=2)
     return hsv
 
 
