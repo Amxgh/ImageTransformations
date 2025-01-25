@@ -32,3 +32,55 @@ def rgb_to_hsv(image: np.ndarray) -> np.ndarray:
     hsv: np.ndarray = np.stack([h, s, v], axis=2)
     return hsv
 
+
+
+def hsv_to_rgb(image: np.ndarray) -> np.ndarray:
+    h: np.ndarray = image[:, :, 0]
+    s: np.ndarray = image[:, :, 1]
+    v: np.ndarray = image[:, :, 2]
+
+    c: np.ndarray = v * s
+
+    h_prime: np.ndarray = h/60
+
+    x: np.ndarray = c * (1 - abs((h_prime % 2) - 1))
+    r_prime: np.ndarray = np.zeros_like(h)
+    g_prime: np.ndarray = np.zeros_like(h)
+    b_prime: np.ndarray = np.zeros_like(h)
+
+    m1 = (0 <= h_prime) & (h_prime < 1) # Mask 1 for condition 1
+    r_prime[m1] = c[m1]
+    g_prime[m1] = x[m1]
+    b_prime[m1] = 0
+
+    m2 = (1 <= h_prime) & (h_prime < 2) # Mask 2 for condition 2
+    r_prime[m2] = x[m2]
+    g_prime[m2] = c[m2]
+    b_prime[m2] = 0
+
+    m3 = (2 <= h_prime) & (h_prime < 3) # Mask 3 for condition 3
+    r_prime[m3] = 0
+    g_prime[m3] = c[m3]
+    b_prime[m3] = x[m3]
+
+    m4 = (3 <= h_prime) & (h_prime < 4) # Mask 4 for condition 4
+    r_prime[m4] = 0
+    g_prime[m4] = x[m4]
+    b_prime[m4] = c[m4]
+
+    m5 = (4 <= h_prime) & (h_prime < 5) # Mask 5 for condition 5
+    r_prime[m5] = x[m5]
+    g_prime[m5] = 0
+    b_prime[m5] = c[m5]
+
+    m6 = (5 <= h_prime) & (h_prime < 6) # Mask 6 for condition 6
+    r_prime[m6] = c[m6]
+    g_prime[m6] = 0
+    b_prime[m6] = x[m6]
+
+    m: np.ndarray = v - c
+
+    rgb_image: np.ndarray = np.stack([r_prime + m, g_prime + m, b_prime + m], axis=2)
+
+    return rgb_image
+
