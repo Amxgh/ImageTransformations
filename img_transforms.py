@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from numpy.lib import stride_tricks
 
 
-def random_square_crop(image: np.ndarray, size:int):
-    h, w, c = image.shape
+def random_crop(img: np.ndarray, size: int) -> np.ndarray:
+    h, w, c = img.shape
 
     if size > min(w, h) or size < 0:
         raise ValueError(f"Size is greater than min(w, h) or less than 0. For this image, the dimensions are: {h}x{w}x{c}")
@@ -17,7 +17,7 @@ def random_square_crop(image: np.ndarray, size:int):
     start_col = random.randint(0, w - size)
     end_col = start_col + size
 
-    return image[start_row:end_row, start_col:end_col, :]
+    return img[start_row:end_row, start_col:end_col, :]
 
 def patch_extraction(img, n):
     h, w, c = img.shape
