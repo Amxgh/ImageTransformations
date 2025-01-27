@@ -19,7 +19,17 @@ def random_square_crop(image: np.ndarray, size:int):
 
     return image[start_row:end_row, start_col:end_col, :]
 
+def patch_extraction(img, n):
+    h, w, c = img.shape
+    size = h // n
+    print(size)
+    shape = [h // size, w // size] + [size, size, 3]
 
+    # (row, col, patch_row, patch_col)
+    strides: list = [size * s for s in img.strides[:2]] + list(img.strides)
+    # extract patches
+    patches = stride_tricks.as_strided(img, shape=shape, strides=strides)
+    return patches
 
 def main():
     image = cv2.imread("square image.png")
