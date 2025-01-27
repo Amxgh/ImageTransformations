@@ -40,6 +40,19 @@ def main():
 
     cv2.imwrite("Output.jpg", bgr_round_trip)
 
+    number_of_patches = 10
+    patches = patch_extraction(rgb_img, number_of_patches)
+
+    rows, cols = patches.shape[:2]
+    fig, axes = plt.subplots(rows, cols, figsize=(cols * 2, rows * 2))
+
+    for i in range(rows):
+        for j in range(cols):
+            axes[i, j].imshow(patches[i, j].astype(np.uint8))
+            axes[i, j].axis("off")
+
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
     main()
