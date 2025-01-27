@@ -116,7 +116,7 @@ def main(argc: int, argv: list):
 
     image = cv2.imread(filename)
     if image is None:
-        raise FileNotFoundError("Could not load 'my_photo.jpg'. Check your path.")
+        raise FileNotFoundError(f"Could not load {filename}. Check your path.")
 
     rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
