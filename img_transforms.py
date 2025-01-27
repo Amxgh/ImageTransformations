@@ -19,3 +19,17 @@ def random_square_crop(image: np.ndarray, size:int):
 
     return image[start_row:end_row, start_col:end_col, :]
 
+
+
+def main():
+    image = cv2.imread("square image.png")
+    rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    image = random_square_crop(rgb_img, 100)
+    bgr_round_trip = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+    cv2.imwrite("Output.jpg", bgr_round_trip)
+
+
+if __name__ == "__main__":
+    main()
