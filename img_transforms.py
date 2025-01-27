@@ -19,10 +19,9 @@ def random_crop(img: np.ndarray, size: int) -> np.ndarray:
 
     return img[start_row:end_row, start_col:end_col, :]
 
-def patch_extraction(img, n):
+def extract_patch(img: np.ndarray, num_patches: int) -> np.ndarray:
     h, w, c = img.shape
-    size = h // n
-    print(size)
+    size = h // num_patches
     shape = [h // size, w // size] + [size, size, 3]
 
     # (row, col, patch_row, patch_col)
@@ -31,17 +30,18 @@ def patch_extraction(img, n):
     patches = stride_tricks.as_strided(img, shape=shape, strides=strides)
     return patches
 
+
 def main():
     image = cv2.imread("square image.png")
     rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    image = random_square_crop(rgb_img, 100)
+    image = random_crop(rgb_img, 100)
     bgr_round_trip = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
     cv2.imwrite("Output.jpg", bgr_round_trip)
 
     number_of_patches = 10
-    patches = patch_extraction(rgb_img, number_of_patches)
+    patches = extract_patch(rgb_img, number_of_patches)
 
     rows, cols = patches.shape[:2]
     fig, axes = plt.subplots(rows, cols, figsize=(cols * 2, rows * 2))
