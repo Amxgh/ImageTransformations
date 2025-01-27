@@ -11,28 +11,29 @@ def random_crop(img: np.ndarray, size: int) -> np.ndarray:
     if size > min(w, h) or size < 0:
         raise ValueError(f"Size is greater than min(w, h) or less than 0. For this image, the dimensions are: {h}x{w}x{c}")
 
-    start_row = random.randint(0, h - size)
-    end_row = start_row + size
+    start_row: int = random.randint(0, h - size)
+    end_row: int = start_row + size
 
-    start_col = random.randint(0, w - size)
-    end_col = start_col + size
+    start_col: int = random.randint(0, w - size)
+    end_col: int = start_col + size
 
     return img[start_row:end_row, start_col:end_col, :]
 
 def extract_patch(img: np.ndarray, num_patches: int) -> np.ndarray:
     h, w, c = img.shape
-    size = h // num_patches
-    shape = [h // size, w // size] + [size, size, 3]
+    size: int = h // num_patches
+    shape: list = [h // size, w // size] + [size, size, 3]
 
     # (row, col, patch_row, patch_col)
     strides: list = [size * s for s in img.strides[:2]] + list(img.strides)
     # extract patches
-    patches = stride_tricks.as_strided(img, shape=shape, strides=strides)
+    patches: np.ndarray = stride_tricks.as_strided(img, shape=shape, strides=strides)
     return patches
 
+# def resize_img(img: np.ndarray, factor: int) -> np.ndarray:
 
 def main():
-    image = cv2.imread("square image.png")
+    image = cv2.imread("squareimage.png")
     rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     image = random_crop(rgb_img, 100)
@@ -40,7 +41,7 @@ def main():
 
     cv2.imwrite("Output.jpg", bgr_round_trip)
 
-    number_of_patches = 10
+    number_of_patches = 100
     patches = extract_patch(rgb_img, number_of_patches)
 
     rows, cols = patches.shape[:2]
