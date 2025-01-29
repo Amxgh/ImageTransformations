@@ -37,6 +37,22 @@ def random_crop(img: np.ndarray, size: int) -> np.ndarray:
     return img[start_row:end_row, start_col:end_col, :]
 
 def extract_patch(img: np.ndarray, num_patches: int) -> np.ndarray:
+    """
+    Extract random patches from an image.
+
+    Parameters
+    ----------
+    img : np.ndarray
+        Input image of shape (H, W, C), where H is the height, W is the width, and C is the number of channels.
+    num_patches : int
+        The number of patches to extract from the image.
+
+    Returns
+    -------
+    np.ndarray
+        Array of extracted patches with shape (num_patches, num_patches, patch_size, patch_size, C),
+        where `patch_size` is determined based on the input image dimensions.
+    """
     h, w, c = img.shape
     size: int = h // num_patches
     shape: list = [h // size, w // size] + [size, size, 3]
