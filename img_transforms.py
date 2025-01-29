@@ -8,6 +8,21 @@ from random import randint, uniform
 
 
 def random_crop(img: np.ndarray, size: int) -> np.ndarray:
+    """
+    Randomly crop an image to a square of the given size.
+
+    Parameters
+    ----------
+    img : np.ndarray
+        Input image of shape (H, W, C), where H is the height, W is the width, and C is the number of channels.
+    size : int
+        The desired size of the cropped square (size x size).
+
+    Returns
+    -------
+    np.ndarray
+        Cropped image of shape (size, size, C) with the same dtype as the input.
+    """
     h, w, c = img.shape
 
     if size > min(w, h) or size < 0:
