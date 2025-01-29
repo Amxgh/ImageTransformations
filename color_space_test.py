@@ -56,6 +56,20 @@ def rgb_to_hsv(image: np.ndarray, h_modifier: int, s_modifier: float, v_modifier
 
 
 def hsv_to_rgb(image: np.ndarray) -> np.ndarray:
+    """
+    Convert an HSV image to RGB.
+
+    Parameters
+    ----------
+    image : np.ndarray
+        Input image in HSV format, with shape (H, W, 3).
+        The expected dtype is uint8 (0-255) or float32 (0-1).
+
+    Returns
+    -------
+    np.ndarray
+        RGB image of shape (H, W, 3) with the same dtype as the input.
+    """
     h: np.ndarray = image[:, :, 0]
     s: np.ndarray = image[:, :, 1]
     v: np.ndarray = image[:, :, 2]
