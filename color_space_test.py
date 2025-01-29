@@ -1,8 +1,26 @@
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
 
-def rgb_to_hsv(image: np.ndarray, h_modifier: float, s_modifier: float, v_modifier: float) -> np.ndarray:
+def rgb_to_hsv(image: np.ndarray, h_modifier: int, s_modifier: float, v_modifier: float) -> np.ndarray:
+    """
+    Convert an RGB image to HSV, modify the hue, saturation, and value, and return the modified image in RGB format.
+
+    Parameters
+    ----------
+    image : np.ndarray
+        Input RGB image of shape (H, W, 3). Expected dtype is uint8 (0-255) or float32 (0-1).
+    h_modifier : int
+        Hue adjustment value in the range [0, 360].
+    s_modifier : float
+        Saturation adjustment factor in the range [0, 1].
+    v_modifier : float
+        Value (brightness) adjustment factor in the range [0, 1].
+
+    Returns
+    -------
+    np.ndarray
+        Modified RGB image of shape (H, W, 3) with the same dtype as the input.
+    """
     image = image / 255 if image.max() > 1 else image
 
     v: np.ndarray = np.max(image, axis=2)
