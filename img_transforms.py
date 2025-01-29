@@ -26,7 +26,8 @@ def random_crop(img: np.ndarray, size: int) -> np.ndarray:
     h, w, c = img.shape
 
     if size > min(w, h) or size < 0:
-        raise ValueError(f"Size is greater than min(w, h) or less than 0. For this image, the dimensions are: {h}x{w}x{c}")
+        raise ValueError(
+            f"Size is greater than min(w, h) or less than 0. For this image, the dimensions are: {h}x{w}x{c}")
 
     start_row: int = random.randint(0, h - size)
     end_row: int = start_row + size
@@ -35,6 +36,7 @@ def random_crop(img: np.ndarray, size: int) -> np.ndarray:
     end_col: int = start_col + size
 
     return img[start_row:end_row, start_col:end_col, :]
+
 
 def extract_patch(img: np.ndarray, num_patches: int) -> np.ndarray:
     """
@@ -62,6 +64,7 @@ def extract_patch(img: np.ndarray, num_patches: int) -> np.ndarray:
     # extract patches
     patches: np.ndarray = stride_tricks.as_strided(img, shape=shape, strides=strides)
     return patches
+
 
 def resize_img(img: np.ndarray, factor: int) -> np.ndarray:
     """
@@ -92,12 +95,13 @@ def resize_img(img: np.ndarray, factor: int) -> np.ndarray:
 
     for new_y in range(new_h):
         for new_x in range(new_w):
-            original_x: int = min(int(new_x * scale_x), w-1)
-            original_y: int = min(int(new_y * scale_y), w-1)
+            original_x: int = min(int(new_x * scale_x), w - 1)
+            original_y: int = min(int(new_y * scale_y), w - 1)
 
             resized_img[new_y, new_x] = img[original_y, original_x]
 
     return resized_img
+
 
 def color_jitter(img: np.ndarray, hue: int, saturation: float, value: float) -> np.ndarray:
     """
@@ -123,6 +127,7 @@ def color_jitter(img: np.ndarray, hue: int, saturation: float, value: float) -> 
     modified_rgb_image: np.ndarray = hsv_to_rgb(modified_hsv_image)
 
     return modified_rgb_image
+
 
 def main():
     image = cv2.imread("squareimage.png")
@@ -154,13 +159,6 @@ def main():
     jittered_image = color_jitter(rgb_img, 360, 1, 1)
     cv2.imwrite("jittered_output.jpg", cv2.cvtColor(jittered_image, cv2.COLOR_BGR2RGB))
 
-    for i in range(rows):
-        for j in range(cols):
-            axes[i, j].imshow(patches[i, j].astype(np.uint8))
-            axes[i, j].axis("off")
-
-    plt.tight_layout()
-    plt.show()
 
 if __name__ == "__main__":
     main()
