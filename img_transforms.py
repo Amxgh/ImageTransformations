@@ -69,6 +69,25 @@ def resize_img(img: np.ndarray, factor: int) -> np.ndarray:
     return resized_img
 
 def color_jitter(img: np.ndarray, hue: int, saturation: float, value: float) -> np.ndarray:
+    """
+    Apply color jitter to an image by modifying its hue, saturation, and value.
+
+    Parameters
+    ----------
+    img : np.ndarray
+        Input image of shape (H, W, C), where H is the height, W is the width, and C is the number of channels.
+    hue : float
+        Hue adjustment value in the range [0, 360].
+    saturation : float
+        Saturation adjustment factor in the range [0, 1].
+    value : float
+        Value (brightness) adjustment factor in the range [0, 1].
+
+    Returns
+    -------
+    np.ndarray
+        Color-jittered image of shape (H, W, C) with the same dtype as the input.
+    """
     modified_hsv_image: np.ndarray = rgb_to_hsv(img, randint(0, hue), uniform(0, saturation), uniform(0, value))
     modified_rgb_image: np.ndarray = hsv_to_rgb(modified_hsv_image)
 
