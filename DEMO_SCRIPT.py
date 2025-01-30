@@ -38,11 +38,12 @@ def demo_rgb_hsv_rgb_conversion(img: np.ndarray, h_modifier: int = 0, s_modifier
     plt.figtext(0.5, 0.1, modifiers, ha="center", fontsize=12)
 
     plt.gcf().canvas.manager.set_window_title("RGB-HSV-RGB Conversion")
-    plt.show()
 
     cv2.imwrite(f"demo_output/rgb-hsv-converter/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     cv2.imwrite(f"demo_output/rgb-hsv-converter/rgb_roundtrip_mod-{h_modifier}-{s_modifier}-{v_modifier}.png",
                 cv2.cvtColor(rgb_roundtrip_img, cv2.COLOR_BGR2RGB))
+
+    plt.show()
 
 
 def demo_random_crop(img: np.ndarray) -> None:
@@ -96,12 +97,13 @@ def demo_random_crop(img: np.ndarray) -> None:
 
     plt.suptitle("Random Crop", fontsize=16)
     plt.gcf().canvas.manager.set_window_title("Random Crop")
-    plt.show()
 
     cv2.imwrite(f"demo_output/random-crop/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     crops = [crop_1, crop_2, crop_3, crop_4, crop_5, crop_6]
     for i in range(len(crops)):
         cv2.imwrite(f"demo_output/random-crop/size_{size}_crop_{i+1}.png", cv2.cvtColor(crops[i], cv2.COLOR_BGR2RGB))
+
+    plt.show()
 
 
 def demo_extract_patch(img: np.ndarray, number_of_patches: int) -> None:
@@ -120,11 +122,12 @@ def demo_extract_patch(img: np.ndarray, number_of_patches: int) -> None:
 
     plt.suptitle("Extract Patch", fontsize=16)
     plt.gcf().canvas.manager.set_window_title("Extract Patch")
-    plt.show()
 
     cv2.imwrite(f"demo_output/extract-patch/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     for i in range(len(patches)):
         cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i+1}.png", cv2.cvtColor(patches[i], cv2.COLOR_BGR2RGB))
+
+    plt.show()
 
 
 def demo_resize_image(img: np.ndarray, scale_factor: float) -> None:
@@ -152,6 +155,70 @@ def demo_resize_image(img: np.ndarray, scale_factor: float) -> None:
     cv2.imwrite(f"demo_output/resize-image/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     cv2.imwrite(f"demo_output/resize-image/resized_image_{scale_factor}.png", cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
     plt.show()
+
+
+def demo_color_jitter(img: np.ndarray, hue: int, saturation: float, value: float) -> None:
+    if not os.path.exists("demo_output/color-jitter"):
+        os.makedirs("demo_output/color-jitter")
+
+    jitter_1 = color_jitter(img, hue, saturation, value)
+    jitter_2 = color_jitter(img, hue, saturation, value)
+    jitter_3 = color_jitter(img, hue, saturation, value)
+    jitter_4 = color_jitter(img, hue, saturation, value)
+    jitter_5 = color_jitter(img, hue, saturation, value)
+    jitter_6 = color_jitter(img, hue, saturation, value)
+
+    fig, axes = plt.subplots(3, 3)
+    axes[0, 0].axis(False)
+
+    axes[0, 1].imshow(img)
+    axes[0, 1].set_title("Original RGB Image")
+    axes[0, 1].axis(False)
+
+    # Hide the other two axes in the first row
+    axes[0, 1].axis('off')
+    axes[0, 2].axis('off')
+
+    axes[1, 0].imshow(jitter_1)
+    axes[1, 0].set_title("Jitter 1")
+    axes[1, 0].axis(False)
+
+    axes[1, 1].imshow(jitter_2)
+    axes[1, 1].set_title("Jitter 2")
+    axes[1, 1].axis(False)
+
+    axes[1, 2].imshow(jitter_3)
+    axes[1, 2].set_title("Jitter 3")
+    axes[1, 2].axis(False)
+
+    axes[2, 0].imshow(jitter_4)
+    axes[2, 0].set_title("Jitter 4")
+    axes[2, 0].axis(False)
+
+    axes[2, 1].imshow(jitter_5)
+    axes[2, 1].set_title("Jitter 5")
+    axes[2, 1].axis(False)
+
+    axes[2, 2].imshow(jitter_6)
+    axes[2, 2].set_title("Jitter 6")
+    axes[2, 2].axis(False)
+
+    plt.suptitle("Color Jitter", fontsize=16)
+    axes[0, 0].text(0.5, 0.3, f"Modifiers Provided (all images):\n"
+                              f"Hue: {hue}\n"
+    f"Saturation: {saturation}\n"
+    f"Value: {value}", ha="center", fontsize=10, transform=axes[0, 0].transAxes)
+
+    plt.gcf().canvas.manager.set_window_title("Color Jitter")
+
+    cv2.imwrite(f"demo_output/color-jitter/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    jitters = [jitter_1, jitter_2, jitter_3, jitter_4, jitter_5, jitter_6]
+    for i in range(len(jitters)):
+        cv2.imwrite(f"demo_output/color-jitter/jittered_{hue}_{saturation}_{value}_{i+1}.png",
+                    cv2.cvtColor(jitters[i], cv2.COLOR_BGR2RGB))
+
+    plt.show()
+
 
 def main(argc: int, argv: list):
     if argc != 2:
@@ -200,7 +267,13 @@ def main(argc: int, argv: list):
 
     # Resize Image
     demo_resize_image(rgb_img, 0.5)
+    print("YOU MIGHT HAVE TO WAIT FOR THE WINDOWS TO SHOW UP FROM THIS POINT ON BECAUSE OF THE NUMBER/SIZE OF IMAGES")
     demo_resize_image(rgb_img, 2)
+
+    # Color Jitter
+    demo_color_jitter(rgb_img, 360, 1, 1)
+    demo_color_jitter(rgb_img, 180, 0.5, 0.5)
+    demo_color_jitter(rgb_img, 0, 0.5, 0)
 
 
 if __name__ == "__main__":
