@@ -66,7 +66,7 @@ def extract_patch(img: np.ndarray, num_patches: int) -> np.ndarray:
     return patches
 
 
-def resize_img(img: np.ndarray, factor: int) -> np.ndarray:
+def resize_img(img: np.ndarray, factor: float) -> np.ndarray:
     """
     Resize an image by a given factor.
 
@@ -74,7 +74,7 @@ def resize_img(img: np.ndarray, factor: int) -> np.ndarray:
     ----------
     img : np.ndarray
         Input image of shape (H, W, C), where H is the height, W is the width, and C is the number of channels.
-    factor : int
+    factor : float
         Scaling factor by which to resize the image.
 
     Returns
