@@ -1,7 +1,8 @@
+import cv2
 import numpy as np
 
 from img_transforms import resize_img
-import cv2
+
 
 def create_img_pyramid(img: np.ndarray, height: int) -> list[np.ndarray]:
     """
@@ -22,9 +23,10 @@ def create_img_pyramid(img: np.ndarray, height: int) -> list[np.ndarray]:
     h, w, c = img.shape
     resized_imgs = []
     for i in range(height):
-        resized_img = resize_img(img, 0.5**(i+1))
+        resized_img = resize_img(img, 0.5 ** (i + 1))
         resized_imgs.append(resized_img)
     return resized_imgs
+
 
 def main(argc: int, argv: list):
     if argc != 3:
@@ -44,8 +46,10 @@ def main(argc: int, argv: list):
     resized_imgs = create_img_pyramid(img, height)
 
     for i in range(height):
-        cv2.imwrite(f"{filename[:-4]}_{2**(i+1)}x.png", cv2.cvtColor(resized_imgs[i], cv2.COLOR_RGB2BGR))
+        cv2.imwrite(f"{filename[:-4]}_{2 ** (i + 1)}x.png", cv2.cvtColor(resized_imgs[i], cv2.COLOR_RGB2BGR))
+
 
 if __name__ == "__main__":
     import sys
+
     main(len(sys.argv), sys.argv)
