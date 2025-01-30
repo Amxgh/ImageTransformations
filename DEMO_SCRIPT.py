@@ -103,6 +103,29 @@ def demo_random_crop(img: np.ndarray) -> None:
         cv2.imwrite(f"demo_output/random-crop/size_{size}_crop_{i+1}.png", cv2.cvtColor(crops[i], cv2.COLOR_BGR2RGB))
 
 
+def demo_extract_patch(img: np.ndarray, number_of_patches: int) -> None:
+    if not os.path.exists("demo_output/extract-patch"):
+        os.makedirs("demo_output/extract-patch")
+
+    patches = extract_patch(img, number_of_patches)
+
+    rows, cols = patches.shape[:2]
+    fig, axes = plt.subplots(rows, cols, figsize=(cols * 2, rows * 2))
+
+    for i in range(rows):
+        for j in range(cols):
+            axes[i, j].imshow(patches[i, j].astype(np.uint8))
+            axes[i, j].axis("off")
+
+    plt.suptitle("Extract Patch", fontsize=16)
+    plt.gcf().canvas.manager.set_window_title("Extract Patch")
+    plt.show()
+
+    cv2.imwrite(f"demo_output/extract-patch/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    for i in range(len(patches)):
+        cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i+1}.png", cv2.cvtColor(patches[i], cv2.COLOR_BGR2RGB))
+
+
 def main(argc: int, argv: list):
     if argc != 2:
         raise ValueError("Invalid syntax\n"
@@ -139,6 +162,10 @@ def main(argc: int, argv: list):
 
     # Random Crop
     demo_random_crop(rgb_img)
+
+    # Extract Patch
+    demo_extract_patch(rgb_img, 5)
+    demo_extract_patch(rgb_img, 10)
 
 
 if __name__ == "__main__":
