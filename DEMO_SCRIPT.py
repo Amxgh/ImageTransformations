@@ -44,6 +44,64 @@ def demo_rgb_hsv_rgb_conversion(img: np.ndarray, h_modifier: int = 0, s_modifier
                 cv2.cvtColor(rgb_roundtrip_img, cv2.COLOR_BGR2RGB))
 
 
+def demo_random_crop(img: np.ndarray) -> None:
+    h, w, c = img.shape
+    size = int(min(h, w) / 10) # Assumed the size to be a 10th of the height or width (the lower of the two)
+
+    if not os.path.exists("demo_output/random-crop"):
+        os.makedirs("demo_output/random-crop")
+
+    crop_1 = random_crop(img, size)
+    crop_2 = random_crop(img, size)
+    crop_3 = random_crop(img, size)
+    crop_4 = random_crop(img, size)
+    crop_5 = random_crop(img, size)
+    crop_6 = random_crop(img, size)
+
+    fig, axes = plt.subplots(3, 3)
+    axes[0, 0].axis(False)
+
+    axes[0, 1].imshow(img)
+    axes[0, 1].set_title("Original RGB Image (not to scale)")
+    axes[0, 1].axis(False)
+
+    # Hide the other two axes in the first row
+    axes[0, 1].axis('off')
+    axes[0, 2].axis('off')
+
+    axes[1, 0].imshow(crop_1)
+    axes[1, 0].set_title("Crop 1")
+    axes[1, 0].axis(False)
+
+    axes[1, 1].imshow(crop_2)
+    axes[1, 1].set_title("Crop 2")
+    axes[1, 1].axis(False)
+
+    axes[1, 2].imshow(crop_3)
+    axes[1, 2].set_title("Crop 3")
+    axes[1, 2].axis(False)
+
+    axes[2, 0].imshow(crop_4)
+    axes[2, 0].set_title("Crop 4")
+    axes[2, 0].axis(False)
+
+    axes[2, 1].imshow(crop_5)
+    axes[2, 1].set_title("Crop 5")
+    axes[2, 1].axis(False)
+
+    axes[2, 2].imshow(crop_6)
+    axes[2, 2].set_title("Crop 6")
+    axes[2, 2].axis(False)
+
+    plt.suptitle("Random Crop", fontsize=16)
+    plt.gcf().canvas.manager.set_window_title("Random Crop")
+    plt.show()
+
+    cv2.imwrite(f"demo_output/random-crop/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    crops = [crop_1, crop_2, crop_3, crop_4, crop_5, crop_6]
+    for i in range(len(crops)):
+        cv2.imwrite(f"demo_output/random-crop/size_{size}_crop_{i+1}.png", cv2.cvtColor(crops[i], cv2.COLOR_BGR2RGB))
+
 
 def main(argc: int, argv: list):
     if argc != 2:
@@ -79,6 +137,8 @@ def main(argc: int, argv: list):
     # RGB to HSV to RGB - 180, 0, 0 as modifiers
     demo_rgb_hsv_rgb_conversion(rgb_img, 180, 0, 0)
 
+    # Random Crop
+    demo_random_crop(rgb_img)
 
 
 if __name__ == "__main__":
