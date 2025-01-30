@@ -220,6 +220,37 @@ def demo_color_jitter(img: np.ndarray, hue: int, saturation: float, value: float
     plt.show()
 
 
+def demo_image_pyramid(img: np.ndarray, height: int) -> None:
+    if not os.path.exists("demo_output/image-pyramid"):
+        os.makedirs("demo_output/image-pyramid")
+
+    resized_imgs = create_img_pyramid(img, height)
+
+    fig, axes = plt.subplots(1, height + 1)
+    axes[0].imshow(img)
+    axes[0].set_title("Original")
+    axes[0].axis(False)
+
+    for i in range(1, height + 1):
+        axes[i].imshow(resized_imgs[i - 1])
+        axes[i].set_title(f"{2**(i+1)}x")
+        axes[i].axis(False)
+
+    plt.suptitle("Image Pyramid", fontsize=16)
+    plt.gcf().canvas.manager.set_window_title("Image Pyramid")
+    plt.figtext(0.5, 0.1, "IMAGE SIZE DIFFERENCE IS NOT VISIBLE IN MATPLOTLIB\n"
+                          "Please look at ./demo-output/image-pyramid/\n"
+                          "FILE NAMES IN THE FOLDER DO NOT MATCH SPECIFICATION.\n"
+                          "For filenames that match specs, run ./create_img_pyramid.py", ha="center", fontsize=12)
+
+    cv2.imwrite(f"demo_output/image-pyramid/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    for i in range(len(resized_imgs)):
+        cv2.imwrite(f"demo_output/image-pyramid/resized_image_{0.5 ** (i + 1)}.png",
+                    cv2.cvtColor(resized_imgs[i], cv2.COLOR_BGR2RGB))
+
+    plt.show()
+
+
 def main(argc: int, argv: list):
     if argc != 2:
         raise ValueError("Invalid syntax\n"
@@ -275,6 +306,8 @@ def main(argc: int, argv: list):
     demo_color_jitter(rgb_img, 180, 0.5, 0.5)
     demo_color_jitter(rgb_img, 0, 0.5, 0)
 
+    # Image Pyramid
+    demo_image_pyramid(rgb_img, 5)
 
 if __name__ == "__main__":
     import sys
