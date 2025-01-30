@@ -132,29 +132,29 @@ def color_jitter(img: np.ndarray, hue: int, saturation: float, value: float) -> 
 def main():
     image = cv2.imread("squareimage.png")
     rgb_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    #
-    # image = random_crop(rgb_img, 100)
-    # bgr_round_trip = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    #
-    # cv2.imwrite("Output.jpg", bgr_round_trip)
-    #
-    # number_of_patches = 5
-    # patches = extract_patch(rgb_img, number_of_patches)
-    #
-    # rows, cols = patches.shape[:2]
-    # fig, axes = plt.subplots(rows, cols, figsize=(cols * 2, rows * 2))
-    #
-    # for i in range(rows):
-    #     for j in range(cols):
-    #         axes[i, j].imshow(patches[i, j].astype(np.uint8))
-    #         axes[i, j].axis("off")
-    #
-    # plt.tight_layout()
-    # plt.show()
-    #
-    #
-    # resized_image = resize_img(rgb_img, 10)
-    # cv2.imwrite("resized_output.jpg", cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
+
+    image = random_crop(rgb_img, 100)
+    bgr_round_trip = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+    cv2.imwrite("Output.jpg", bgr_round_trip)
+
+    number_of_patches = 5
+    patches = extract_patch(rgb_img, number_of_patches)
+
+    rows, cols = patches.shape[:2]
+    fig, axes = plt.subplots(rows, cols, figsize=(cols * 2, rows * 2))
+
+    for i in range(rows):
+        for j in range(cols):
+            axes[i, j].imshow(patches[i, j].astype(np.uint8))
+            axes[i, j].axis("off")
+
+    plt.tight_layout()
+    plt.show()
+
+
+    resized_image = resize_img(rgb_img, 0.5)
+    cv2.imwrite("resized_output.jpg", cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
 
     jittered_image = color_jitter(rgb_img, 360, 1, 1)
     cv2.imwrite("jittered_output.jpg", cv2.cvtColor(jittered_image, cv2.COLOR_BGR2RGB))
