@@ -1,10 +1,12 @@
-import numpy as np
 import random
+from random import randint, uniform
+
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
 from numpy.lib import stride_tricks
+
 from color_space_test import rgb_to_hsv, hsv_to_rgb
-from random import randint, uniform
 
 
 def random_crop(img: np.ndarray, size: int) -> np.ndarray:
@@ -151,7 +153,6 @@ def main():
 
     plt.tight_layout()
     plt.show()
-
 
     resized_image = resize_img(rgb_img, 0.5)
     cv2.imwrite("resized_output.jpg", cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
