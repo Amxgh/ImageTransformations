@@ -1,11 +1,13 @@
-import cv2
-from color_space_test import rgb_to_hsv, hsv_to_rgb
-from img_transforms import random_crop, extract_patch, resize_img, color_jitter
-from create_img_pyramid import create_img_pyramid
-import matplotlib.pyplot as plt
-import matplotlib
-import numpy as np
 import os
+
+import cv2
+import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+
+from color_space_test import rgb_to_hsv, hsv_to_rgb
+from create_img_pyramid import create_img_pyramid
+from img_transforms import random_crop, extract_patch, resize_img, color_jitter
 
 
 def demo_rgb_hsv_rgb_conversion(img: np.ndarray, h_modifier: int = 0, s_modifier: float = 0,
@@ -48,7 +50,7 @@ def demo_rgb_hsv_rgb_conversion(img: np.ndarray, h_modifier: int = 0, s_modifier
 
 def demo_random_crop(img: np.ndarray) -> None:
     h, w, c = img.shape
-    size = int(min(h, w) / 10) # Assumed the size to be a 10th of the height or width (the lower of the two)
+    size = int(min(h, w) / 10)  # Assumed the size to be a 10th of the height or width (the lower of the two)
 
     if not os.path.exists("demo_output/random-crop"):
         os.makedirs("demo_output/random-crop")
@@ -101,7 +103,7 @@ def demo_random_crop(img: np.ndarray) -> None:
     cv2.imwrite(f"demo_output/random-crop/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     crops = [crop_1, crop_2, crop_3, crop_4, crop_5, crop_6]
     for i in range(len(crops)):
-        cv2.imwrite(f"demo_output/random-crop/size_{size}_crop_{i+1}.png", cv2.cvtColor(crops[i], cv2.COLOR_BGR2RGB))
+        cv2.imwrite(f"demo_output/random-crop/size_{size}_crop_{i + 1}.png", cv2.cvtColor(crops[i], cv2.COLOR_BGR2RGB))
 
     plt.show()
 
@@ -125,7 +127,8 @@ def demo_extract_patch(img: np.ndarray, number_of_patches: int) -> None:
 
     cv2.imwrite(f"demo_output/extract-patch/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     for i in range(len(patches)):
-        cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i+1}.png", cv2.cvtColor(patches[i], cv2.COLOR_BGR2RGB))
+        cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i + 1}.png",
+                    cv2.cvtColor(patches[i], cv2.COLOR_BGR2RGB))
 
     plt.show()
 
@@ -153,7 +156,8 @@ def demo_resize_image(img: np.ndarray, scale_factor: float) -> None:
     plt.figtext(0.5, 0.1, "IMAGE SIZE DIFFERENCE IS NOT VISIBLE IN MATPLOTLIB\n"
                           "Please look at ./demo-output/resize-image/", ha="center", fontsize=12)
     cv2.imwrite(f"demo_output/resize-image/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-    cv2.imwrite(f"demo_output/resize-image/resized_image_{scale_factor}.png", cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
+    cv2.imwrite(f"demo_output/resize-image/resized_image_{scale_factor}.png",
+                cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
     plt.show()
 
 
@@ -206,15 +210,15 @@ def demo_color_jitter(img: np.ndarray, hue: int, saturation: float, value: float
     plt.suptitle("Color Jitter", fontsize=16)
     axes[0, 0].text(0.5, 0.3, f"Modifiers Provided (all images):\n"
                               f"Hue: {hue}\n"
-    f"Saturation: {saturation}\n"
-    f"Value: {value}", ha="center", fontsize=10, transform=axes[0, 0].transAxes)
+                              f"Saturation: {saturation}\n"
+                              f"Value: {value}", ha="center", fontsize=10, transform=axes[0, 0].transAxes)
 
     plt.gcf().canvas.manager.set_window_title("Color Jitter")
 
     cv2.imwrite(f"demo_output/color-jitter/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
     jitters = [jitter_1, jitter_2, jitter_3, jitter_4, jitter_5, jitter_6]
     for i in range(len(jitters)):
-        cv2.imwrite(f"demo_output/color-jitter/jittered_{hue}_{saturation}_{value}_{i+1}.png",
+        cv2.imwrite(f"demo_output/color-jitter/jittered_{hue}_{saturation}_{value}_{i + 1}.png",
                     cv2.cvtColor(jitters[i], cv2.COLOR_BGR2RGB))
 
     plt.show()
@@ -233,7 +237,7 @@ def demo_image_pyramid(img: np.ndarray, height: int) -> None:
 
     for i in range(1, height + 1):
         axes[i].imshow(resized_imgs[i - 1])
-        axes[i].set_title(f"{2**(i+1)}x")
+        axes[i].set_title(f"{2 ** (i + 1)}x")
         axes[i].axis(False)
 
     plt.suptitle("Image Pyramid", fontsize=16)
@@ -276,7 +280,6 @@ def main(argc: int, argv: list):
     # Suppress unnecessary warnings
     matplotlib.set_loglevel('error')
 
-
     # RGB to HSV to RGB - 0, 0, 0 as modifiers
     demo_rgb_hsv_rgb_conversion(rgb_img)
 
@@ -308,6 +311,7 @@ def main(argc: int, argv: list):
 
     # Image Pyramid
     demo_image_pyramid(rgb_img, 5)
+
 
 if __name__ == "__main__":
     import sys
