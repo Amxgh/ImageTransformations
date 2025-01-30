@@ -126,6 +126,32 @@ def demo_extract_patch(img: np.ndarray, number_of_patches: int) -> None:
         cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i+1}.png", cv2.cvtColor(patches[i], cv2.COLOR_BGR2RGB))
 
 
+def demo_resize_image(img: np.ndarray, scale_factor: float) -> None:
+    if not os.path.exists("demo_output/resize-image"):
+        os.makedirs("demo_output/resize-image")
+
+    resized_image = resize_img(img, scale_factor)
+
+    fig, axes = plt.subplots(1, 2)
+
+    axes[0].imshow(img)
+    axes[0].set_title("Original RGB Image")
+    axes[0].axis('off')
+
+    axes[1].imshow(resized_image)
+    axes[1].set_title(f"Resized Image (Scale Factor: {scale_factor})")
+    axes[1].axis('off')
+
+    plt.suptitle("Resize Image", fontsize=16)
+    plt.gcf().canvas.manager.set_window_title("Resize Image")
+    plt.subplots_adjust(wspace=0.1)
+
+    plt.figtext(0.5, 0.1, "IMAGE SIZE DIFFERENCE IS NOT VISIBLE IN MATPLOTLIB\n"
+                          "Please look at ./demo-output/resize-image/", ha="center", fontsize=12)
+    cv2.imwrite(f"demo_output/resize-image/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    cv2.imwrite(f"demo_output/resize-image/resized_image_{scale_factor}.png", cv2.cvtColor(resized_image, cv2.COLOR_BGR2RGB))
+    plt.show()
+
 def main(argc: int, argv: list):
     if argc != 2:
         raise ValueError("Invalid syntax\n"
@@ -166,6 +192,10 @@ def main(argc: int, argv: list):
     # Extract Patch
     demo_extract_patch(rgb_img, 5)
     demo_extract_patch(rgb_img, 10)
+
+    # Resize Image
+    demo_resize_image(rgb_img, 0.5)
+    demo_resize_image(rgb_img, 2)
 
 
 if __name__ == "__main__":
