@@ -3,6 +3,7 @@ from color_space_test import rgb_to_hsv, hsv_to_rgb
 from img_transforms import random_crop, extract_patch, resize_img, color_jitter
 from create_img_pyramid import create_img_pyramid
 import matplotlib.pyplot as plt
+import matplotlib
 import numpy as np
 import os
 
@@ -173,6 +174,10 @@ def main(argc: int, argv: list):
     output_dir = "demo_output"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+
+    # Suppress unnecessary warnings
+    matplotlib.set_loglevel('error')
+
 
     # RGB to HSV to RGB - 0, 0, 0 as modifiers
     demo_rgb_hsv_rgb_conversion(rgb_img)
