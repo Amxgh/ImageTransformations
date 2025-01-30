@@ -1,5 +1,5 @@
-import numpy as np
 import cv2
+import numpy as np
 
 
 def rgb_to_hsv(image: np.ndarray, h_modifier: int, s_modifier: float, v_modifier: float) -> np.ndarray:
