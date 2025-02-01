@@ -7,7 +7,7 @@
 *.png
 *.jpg
 *.jpeg
-/README.md
 /ignore*
 /demo_output/*
 /img/*
+/README - professor.md
