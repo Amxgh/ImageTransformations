@@ -257,8 +257,8 @@ def demo_image_pyramid(img: np.ndarray, height: int) -> None:
 
 def main(argc: int, argv: list):
     if argc != 2:
-        raise ValueError("Invalid syntax\n"
-                         "python DEMO_SCRIPT.py <image_filename>")
+        argv.append("sample_square_image.png")
+        print("No filename provided. Using sample_square_image.png as default.")
 
     try:
         filename: str = argv[1]
