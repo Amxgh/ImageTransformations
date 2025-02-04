@@ -126,9 +126,10 @@ def demo_extract_patch(img: np.ndarray, number_of_patches: int) -> None:
     plt.gcf().canvas.manager.set_window_title("Extract Patch")
 
     cv2.imwrite(f"demo_output/extract-patch/original_rgb.png", cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-    for i in range(len(patches)):
-        cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i + 1}.png",
-                    cv2.cvtColor(patches[i], cv2.COLOR_BGR2RGB))
+    for i in range(rows):
+        for j in range(cols):
+            cv2.imwrite(f"demo_output/extract-patch/patches_{number_of_patches}_patch_{i + 1}-{j + 1}.png",
+                        cv2.cvtColor(patches[i, j], cv2.COLOR_RGB2BGR))
 
     plt.show()
 
