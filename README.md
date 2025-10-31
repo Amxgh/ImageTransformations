@@ -1,8 +1,4 @@
-# Demonstration Script Instructions for Grader
-
-I do not have a script with screenshots, instead, I have a program you can run in the terminal to see the output of each
-of my functions.
-
+# Image Transformations
 # How to run the program
 
 1. Open a terminal
